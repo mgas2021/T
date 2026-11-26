@@ -7,15 +7,17 @@ be merged. Read it before you write code.
 ## Commands
 
 ```
+./lint.ps1 -Fix     # applies the formatting (XAML Styler and dotnet format)
 dotnet build T.slnx
 dotnet test --project T.Tests/T.Tests.csproj
-./lint.ps1          # checks XAML (XAML Styler) and C# (dotnet format); CI fails without it
-./lint.ps1 -Fix     # applies the formatting
+./lint.ps1          # only checks the formatting, like CI and the pre-commit hook; CI fails without it
 ```
 
 Run `./lint.ps1 -Fix` before every commit, not only at the end: formatting that piles up is harder
-to review and fails CI. Build and test before you open a pull request, and say in the description
-what you ran and what you could not test (for example: "not tried against a real SSH host").
+to review and fails CI. Build and test after it, because `dotnet format` also applies code style and
+analyzer fixes that can change code. Build and test before you open a pull request, and say in the
+description what you ran and what you could not test (for example: "not tried against a real SSH
+host").
 `lint.ps1` is a PowerShell script; on Linux and macOS it needs `pwsh`. CI lints on Windows only.
 
 To have Git check this for you, enable the pre-commit hook once per clone:
